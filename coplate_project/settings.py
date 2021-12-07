@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'coplate',
+    'coplate',  # django가 template를 찾을 때 순서대로 찾기 때문에 template 오버라이딩을 하려면 coplate 앱이 allauth 앱보다 위에 있어야 한다.
+    'widget_tweaks',  # form 위젯(input 태그)를 수정하기 위한 패키지
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -93,24 +94,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': "coplate.validators.CustomPasswordValidator",
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+
 ]
 
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko'
 
 TIME_ZONE = 'UTC'
 
@@ -125,6 +118,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")  # media 파일의 위치를 django에게 알려준다.
+MEDIA_URL = "/uploads/"  # media url
 
 # Auth Settings
 
@@ -137,6 +132,24 @@ AUTHENTICATION_BACKENDS = [
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
+
+ACCOUNT_SIGNUP_REDIRECT_URL = "index"  # url name 이용
+LOGIN_REDIRECT_URL = "index"
+ACCOUNT_LOGOUT_ON_GET = True  # True : logout하면 바로 메인화면으로 전환. False : logout 확인 화면으로 전환
+ACCOUNT_AUTHENTICATION_METHOD = "email"  # authentication 방법을 정하는 setting. 디폴트는 username. 둘 다 사용하려면 username_email
+ACCOUNT_EMAIL_REQUIRED = True  # 회원가입 페이지에서 email 필드 필수
+ACCOUNT_USERNAME_REQUIRED = False  # 회원가입 페이지에서 username 필드 삭제
+ACCOUNT_SIGNUP_FORM_CLASS = "coplate.forms.SignupForm"  # 폼 사용
+ACCOUNT_SESSION_REMEMBER = True  # True : session 정보 기억. False : session 정보 기억 안함
+# SESSION_COOKIE_AGE = 3600  # session 쿠키 만료시간(단위는 초). 영원히 만료되지 않게 하는 방법은 없음
+ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = True  # form에 대한 오류가 나도 입력했던 비밀번호를 지우지않고 놔둠
+ACCOUNT_EMAIL_VARIFICATION = "optional"  # mandatory : 이메일 인증할 때까지 로그인할 수 없음. optional : 이메일 인증 메일은 발송하나 인증하지 않아도 로그인 가능. none : 이메일 인증하지 않음.
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True  # 이메일 인증 링크 클릭하면 회원가입 완료
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "account_email_confirmation_done"  # 로그인 상태 이메일 인증 완료 시 url 이동
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = "account_email_confirmation_done"  # 로그아웃 상태 이메일 인증 완료 시 url 이동
+# PASSWORD_RESET_TIMEOUT_DAYS = 3  # 비밀번호 재설정 링크 유효기간
+ACCOUNT_EMAIL_SUBJECT_PREFIX = ""  # allauth가 발송하는 이메일 제목의 웹사이트 도메인 정보
+
 
 # Email settings
 
