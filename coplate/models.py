@@ -31,9 +31,9 @@ class Review(models.Model):
     ]
     rating = models.IntegerField(choices=RATING_CHOICES)
 
-    image1 = models.ImageField()
-    image2 = models.ImageField()
-    image3 = models.ImageField()
+    image1 = models.ImageField(upload_to="review_pics")  # media 파일의 url주소를 저장하고 form에 업로드된 파일을 MEDIA_ROOT 안에 넣어준다.
+    image2 = models.ImageField(upload_to="review_pics", blank=True)
+    image3 = models.ImageField(upload_to="review_pics", blank=True)
     content = models.TextField()  # 길이제한이 없는 char 필드
     dt_created = models.DateTimeField(auto_now_add=True)  # auto_now_add : 모델이 생성된 시간을 자동으로 필드에 넣어준다.
     dt_updated = models.DateTimeField(auto_now=True)  # auto_now : 모델이 마지막으로 저장된 시간을 자동으로 필드에 넣어준다.
