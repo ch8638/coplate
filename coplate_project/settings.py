@@ -47,14 +47,16 @@ INSTALLED_APPS = [
 
 SITE_ID = 1
 
+# 전체적인 request에 대한 로직은 middleware에서 구현(request는 위에서 아래로 통과, response는 아래에서 위로 통과)
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',  # request에 user 속성 추가
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "coplate.middleware.ProfileSetupMiddleware",
 ]
 
 ROOT_URLCONF = 'coplate_project.urls'
@@ -117,7 +119,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")  # media 파일의 위치를 django에게 알려준다.
 MEDIA_URL = "/uploads/"  # media url
 
@@ -133,13 +135,14 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-ACCOUNT_SIGNUP_REDIRECT_URL = "index"  # url name 이용
-LOGIN_REDIRECT_URL = "index"
+ACCOUNT_SIGNUP_REDIRECT_URL = "profile-set"  # url name 이용
+LOGIN_REDIRECT_URL = "index"  # login하면 어떤 페이지로 redirect 할 것인지 정의
+LOGIN_URL = "account_login"  # 웹 서비스의 로그인에 대한 url을 설정. account_login : all auth가 제공하는 url
 ACCOUNT_LOGOUT_ON_GET = True  # True : logout하면 바로 메인화면으로 전환. False : logout 확인 화면으로 전환
 ACCOUNT_AUTHENTICATION_METHOD = "email"  # authentication 방법을 정하는 setting. 디폴트는 username. 둘 다 사용하려면 username_email
 ACCOUNT_EMAIL_REQUIRED = True  # 회원가입 페이지에서 email 필드 필수
 ACCOUNT_USERNAME_REQUIRED = False  # 회원가입 페이지에서 username 필드 삭제
-ACCOUNT_SIGNUP_FORM_CLASS = "coplate.forms.SignupForm"  # 폼 사용
+# ACCOUNT_SIGNUP_FORM_CLASS = "coplate.forms.SignupForm"  # 폼 사용
 ACCOUNT_SESSION_REMEMBER = True  # True : session 정보 기억. False : session 정보 기억 안함
 # SESSION_COOKIE_AGE = 3600  # session 쿠키 만료시간(단위는 초). 영원히 만료되지 않게 하는 방법은 없음
 ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = True  # form에 대한 오류가 나도 입력했던 비밀번호를 지우지않고 놔둠
