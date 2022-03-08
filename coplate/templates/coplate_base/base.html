@@ -14,21 +14,15 @@
   </head>
   <body>
     {% block header %}{% endblock header %}
-    {% block content %}{% endblock content %}
+     <div class="row">
+        <div class="col-6 col-md-2">
+          {% block menu %}{% endblock %}
+        </div>
+        <div class="col">
+          {% block content %}{% endblock %}
+        </div>
+     </div>
     {% block footer %}{% endblock footer %}
   </body>
-<!--  <body>-->
-<!--    {% block header %}{% endblock header %}-->
-<!--    <hr>-->
-<!--     <div class="row">-->
-<!--        <div class="col-6 col-md-2">-->
-<!--            {% block menu %}{% endblock menu %}-->
-<!--        </div>-->
-<!--        <div class="col">-->
-<!--            {% block content %}{% endblock content %}-->
-<!--        </div>-->
-<!--     </div>-->
-<!--    <hr>-->
-<!--    {% block footer %}{% endblock footer %}-->
-<!--  </body>-->
+
 </html>
