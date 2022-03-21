@@ -24,13 +24,13 @@
               <div class="error-message">{{ error }}</div>
           {% endfor %}
       </div>
-{#      <div>#}
+      <div>
 {#        <input type="text" name="nickname" maxlength="15" placeholder="닉네임 (Coplate에서 사용되는 이름입니다)" class="error cp-input" required id="id_nickname">#}
-{#          {{ form.nickname|add_class:"cp-input"|attr:"placeholder:닉네임 (Coplate에서 사용되는 이름입니다)"|add_error_class:"error"}}#}
-{#          {% for error in form.nickname.errors %}#}
-{#              <div class="error-message">{{ error }}</div>#}
-{#          {% endfor %}#}
-{#      </div>#}
+          {{ form.nickname|add_class:"cp-input"|attr:"placeholder:닉네임 (Coplate에서 사용되는 이름입니다)"|add_error_class:"error"}}
+          {% for error in form.nickname.errors %}
+              <div class="error-message">{{ error }}</div>
+          {% endfor %}
+      </div>
       <div>
 {#        <input type="password" name="password1" placeholder="비밀번호" autocomplete="new-password" class="cp-input" required id="id_password1">#}
           {{ form.password1|add_class:"cp-input"|attr:"placeholder:비밀번호"|add_error_class:"error"}}
