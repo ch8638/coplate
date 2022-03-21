@@ -1,32 +1,15 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.urls import reverse
-from django.views.generic import (
-    ListView,
-    DetailView,
-    CreateView,
-    UpdateView,
-    DeleteView,
-)
-from braces.views import LoginRequiredMixin, UserPassesTestMixin
-from allauth.account.models import EmailAddress
 from allauth.account.views import PasswordChangeView
-from .models import Review, User
-from .forms import ReviewForm, ProfileForm
-from .functions import confirmation_required_redirect
 
 
 # Create your views here.
 def index(request):
     return render(request, "coplate/index.html")
 
-class IndexView(ListView):
-    model = Review
-    template_name = "coplate/index.html"
-    context_object_name = "reviews"
-    paginate_by = 4
-    ordering = ["-dt_created"]
 
 class CustomPasswordChangeView(PasswordChangeView):
+<<<<<<< HEAD
     def get_success_url(self):  # 폼이 성공적으로 처리되면 어디로 리디렉션할 것인지 처리해주는 함수
 
 class ReviewDetailView(DetailView):
@@ -149,3 +132,7 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):  # 이미 생성되어 
 class CustomPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     def get_success_url(self):  # 폼이 성공적으로 처리되면 어디로 리디렉션할 것인지 처리해주는 함수
         return reverse("profile", kwargs=({"user_id": self.request.user.id}))
+=======
+    def get_success_url(self):  # 폼이 성공적으로 처리되면 어디로 리디렉션할 것인지 처리해주는 함수
+        return reverse("index")
+>>>>>>> parent of 94f5cf8 (commit_coplate)
